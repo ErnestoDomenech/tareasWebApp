@@ -1,3 +1,5 @@
+const itemForm = document.getElementById('item-form');
+const itemList = document.getElementById("item-list");
 
 //FUNCIONES A IMPLEMENTAR
 
@@ -17,16 +19,59 @@ function mostrarTareas(){
 }
 
 //escribe en pantalla
-function escribirPantalla(){
-    //los  valores recibidos añadir hijo (<li>) al <ul>
-}
+// function escribirPantalla(){
+//     //los  valores recibidos añadir hijo (<li>) al <ul>
+//    // <UL>.ADDCHILD(<LI>);
+// }
 
 //recoge información del formulario
-function recogerDatosFormulario(){
+function recogerDatosFormulario(evento){
+    evento.preventDefault();
 
-    //aquí recoger los valores de los inputs
-    escribirPantalla();
-    escribirLocalStorage();
+    //1- Aquí recoger los valores de la tarea, la fecha y prioridad
+    //1.1- recoger en variables los datos: 
+          // tareas= <id="item-input">.value
+          const tareas = document.getElementById("item-input").value;
+          // fecha = <id="fecha">.value
+          let fecha = document.getElementById('fecha').value;
+          const parts = fecha.split('-');
+          fecha = parts[2] + '/' + parts[1] + '/' + parts[0];
+          // prioridad = <id="priority">.value
+          const prioridad = document.getElementById('priority').value;
+
+          console.log(tareas, fecha, prioridad);
+    //2- Escribir en la pantalla dentro de un <li> hijo de <ul> tarea, fecha y la prioridad
+    //2.1 - Construir el elemento <li>  
+        const li = document.createElement('li');
+    
+    //2.2 - Añadir al li tarea
+    //2.3 - Añadir al li fecha
+    //2.4 - Añadir al li prioridad
+        let tareaCompleta = fecha + ' - ' + tareas + ' - ' + prioridad;
+        li.appendChild(document.createTextNode(tareaCompleta));
+
+    //2.5 - Añadir al li boton con la x
+    //      2.5.1 crear boton
+        const boton = document.createElement('button');
+        boton.classList.add('btn-link', 'text-red', 'remove-item');
+    //      2.5.2 crear icono x
+        const icono = document.createElement('i');
+        icono.className = 'fa-solid fa-xmark';
+    //      2.5.3 añadir icono al boton 
+        boton.appendChild(icono);
+        li.appendChild(boton);
+    //2.6 - < id="item-list">.AddChild(li)
+        itemList.appendChild(li);
+   
+    //3 - Escribir en localStorage
+    //3.1 - Traer la información de localStorage
+    // 3.1.1 - localStorage.getItem() y almacenar en array
+    //3.2 - Hacer push de los datos en el array
+    //3.3 - Guardar la información en localStorage
+    //  3.3.1 localStorage.setItem()
+
+   //escribirPantalla();
+    //escribirLocalStorage();
 }
 
 //guarda información en localStorage
@@ -75,3 +120,4 @@ function ordenarPorPrioridad(){
     escribirPantalla();
 }
 
+itemForm.addEventListener('submit', recogerDatosFormulario);
